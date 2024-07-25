@@ -6,6 +6,7 @@ import express from 'express'
 import { productRouter } from './routes/productRoutes'
 import { seedRouter } from './routes/seedRoutes'
 import { userRouter } from './routes/userRoutes'
+import { orderRouter } from './routes/orderRoutes'
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ mongoose
 
 app.use('/api/users', userRouter)
 app.use('/api/products', productRouter)
+app.use('/api/orders', orderRouter)
 app.use('/api/seed', seedRouter)
 
 app.listen(PORT, () => {
