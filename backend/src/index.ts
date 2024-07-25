@@ -26,10 +26,12 @@ mongoose.connect(process.env.MONGO_URI!, {
   .catch(err => console.log(err));
 
 app.use('/api/users', userRoutes);
-app.use('/api/products', (req: Request, res: Response) => {
+app.get('/api/products', (req: Request, res: Response) => {
   res.json(sampleProducts);
 });
-
+app.get('/api/products/:slug', (req: Request, res: Response) => {
+  res.json(sampleProducts.find((x) => x.slug === req.params.slug))
+})
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
