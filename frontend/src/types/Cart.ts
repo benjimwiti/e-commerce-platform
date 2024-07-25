@@ -14,6 +14,7 @@ export type CartItem = {
     city: string
     country: string
     postalCode: string
+    
   }
   
   export type Cart = {
