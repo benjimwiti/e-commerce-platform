@@ -1,14 +1,14 @@
-import express, {Request, Response} from 'express';
-import { sampleProducts } from './data';
+//import { Routes } from 'react-router-dom';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes';
 //import productRoutes from './routes/productRoutes';
 import cors from 'cors'
+import express from 'express'
+import { productRouter } from './routes/productRoutes'
+import { seedRouter } from './routes/seedRoutes'
 
 dotenv.config();
-
-
 
 const app = express();
 const PORT = 5000;
@@ -21,17 +21,21 @@ app.use(
 
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI!, {
-}).then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+const MONGODB_URI =
+  process.env.MONGODB_URI || 'mongodb+srv://purity:purity123@cluster0.3qeqe6r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+mongoose.set('strictQuery', true)
+mongoose
+  .connect(MONGODB_URI)
+  .then(() => {
+    console.log('connected to mongodb')
+  })
+  .catch(() => {
+    console.log('error mongodb')
+  })
 
 app.use('/api/users', userRoutes);
-app.get('/api/products', (req: Request, res: Response) => {
-  res.json(sampleProducts);
-});
-app.get('/api/products/:slug', (req: Request, res: Response) => {
-  res.json(sampleProducts.find((x) => x.slug === req.params.slug))
-})
+app.use('/api/products', productRouter)
+app.use('/api/seed', seedRouter)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
