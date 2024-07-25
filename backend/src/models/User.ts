@@ -1,17 +1,16 @@
-import mongoose, { Document } from 'mongoose';
+import { modelOptions, prop, getModelForClass } from '@typegoose/typegoose'
 
-interface IUser extends Document {
-  name: string;
-  email: string;
-  password: string;
+@modelOptions({ schemaOptions: { timestamps: true } })
+export class User {
+  public _id?: string
+  @prop({ required: true })
+  public name!: string
+  @prop({ required: true, unique: true })
+  public email!: string
+  @prop({ required: true })
+  public password!: string
+  @prop({ required: true, default: false })
+  public isAdmin!: boolean
 }
 
-const userSchema = new mongoose.Schema<IUser>({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-});
-
-const User = mongoose.model<IUser>('User', userSchema);
-
-export default User;
+export const UserModel = getModelForClass(User)

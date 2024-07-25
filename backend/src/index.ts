@@ -1,12 +1,11 @@
 //import { Routes } from 'react-router-dom';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import userRoutes from './routes/userRoutes';
-//import productRoutes from './routes/productRoutes';
 import cors from 'cors'
 import express from 'express'
 import { productRouter } from './routes/productRoutes'
 import { seedRouter } from './routes/seedRoutes'
+import { userRouter } from './routes/userRoutes'
 
 dotenv.config();
 
@@ -20,6 +19,7 @@ app.use(
 )
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 
 const MONGODB_URI =
   process.env.MONGODB_URI || 'mongodb+srv://purity:purity123@cluster0.3qeqe6r.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
@@ -33,7 +33,7 @@ mongoose
     console.log('error mongodb')
   })
 
-app.use('/api/users', userRoutes);
+app.use('/api/users', userRouter)
 app.use('/api/products', productRouter)
 app.use('/api/seed', seedRouter)
 
