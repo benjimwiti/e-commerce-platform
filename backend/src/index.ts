@@ -3,9 +3,11 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors'
 import express from 'express'
+import { keyRouter } from './routes/keyRoutes'
 import { productRouter } from './routes/productRoutes'
 import { seedRouter } from './routes/seedRoutes'
 import { userRouter } from './routes/userRoutes'
+import { orderRouter } from './routes/orderRoutes'
 
 dotenv.config();
 
@@ -35,7 +37,9 @@ mongoose
 
 app.use('/api/users', userRouter)
 app.use('/api/products', productRouter)
+app.use('/api/orders', orderRouter)
 app.use('/api/seed', seedRouter)
+app.use('/api/keys', keyRouter)
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
